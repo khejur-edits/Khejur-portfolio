@@ -4,17 +4,15 @@ document.querySelectorAll('.carousel-wrapper').forEach(wrapper => {
   const leftBtn = wrapper.querySelector('.left');
   const rightBtn = wrapper.querySelector('.right');
 
-  let hasInteracted = false;
-
-  // Stop all videos
+  // --- Helper: stop all videos ---
   function stopAllVideos() {
     carousel.querySelectorAll('iframe').forEach(frame => {
-      const src = frame.getAttribute('src').split('?')[0];
-      frame.setAttribute('src', src); // reload iframe
+      const src = frame.src;
+      frame.src = src; // reload iframe → stops playback
     });
   }
 
-  // Center a card
+  // --- Helper: center a card ---
   function centerCard(card) {
     const cardRect = card.getBoundingClientRect();
     const carouselRect = carousel.getBoundingClientRect();
@@ -30,51 +28,38 @@ document.querySelectorAll('.carousel-wrapper').forEach(wrapper => {
     card.classList.add('active');
   }
 
-  // Initial state: ONLY first card active
+  // --- Initial state: first card active ---
   if (cards.length > 0) {
     cards[0].classList.add('active');
   }
 
-  // Click / tap behavior
+  // --- Click / tap behavior ---
   cards.forEach(card => {
     card.addEventListener('click', () => {
-      hasInteracted = true;
-
       stopAllVideos();
-
-      // autoplay clicked video
-      const iframe = card.querySelector('iframe');
-      const baseSrc = iframe.getAttribute('src').split('?')[0];
-      iframe.setAttribute(
-        'src',
-        `${baseSrc}?autoplay=1&mute=0&playsinline=1`
-      );
-
       centerCard(card);
     });
   });
 
-  // Arrow buttons (PC)
+  // --- Arrow buttons (PC) ---
   if (leftBtn && rightBtn) {
     leftBtn.addEventListener('click', () => {
       stopAllVideos();
-      carousel.scrollBy({ left: -260, behavior: 'smooth' });
+      carousel.scrollBy({ left: -240, behavior: 'smooth' });
     });
 
     rightBtn.addEventListener('click', () => {
       stopAllVideos();
-      carousel.scrollBy({ left: 260, behavior: 'smooth' });
+      carousel.scrollBy({ left: 240, behavior: 'smooth' });
     });
   }
 
-  // Snap-to-center after swipe (mobile)
+  // --- Snap-to-center after swipe (mobile lock) ---
   let scrollTimeout;
   carousel.addEventListener('scroll', () => {
-    if (!hasInteracted) return;
-
     clearTimeout(scrollTimeout);
     scrollTimeout = setTimeout(() => {
-      let closest = null;
+      let closest = cards[0];
       let minDistance = Infinity;
 
       cards.forEach(card => {
@@ -88,7 +73,7 @@ document.querySelectorAll('.carousel-wrapper').forEach(wrapper => {
         }
       });
 
-      if (closest) centerCard(closest);
+      centerCard(closest);
     }, 120);
   });
 });
