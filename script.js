@@ -4,40 +4,27 @@ document.querySelectorAll('.carousel-wrapper').forEach(wrapper=>{
   const left = wrapper.querySelector('.left');
   const right = wrapper.querySelector('.right');
 
-  left.addEventListener('click', ()=>{
-    carousel.scrollBy({ left: -240, behavior: 'smooth' });
-  });
-
-  right.addEventListener('click', ()=>{
-    carousel.scrollBy({ left: 240, behavior: 'smooth' });
-  });
+  left.onclick = () => carousel.scrollBy({ left: -240, behavior: 'smooth' });
+  right.onclick = () => carousel.scrollBy({ left: 240, behavior: 'smooth' });
 });
 
 
-// YOUTUBE AUTO PAUSE LOGIC
-let players = [];
+// AUTO PAUSE OTHER VIDEOS
+const iframes = document.querySelectorAll('iframe');
 
-function onYouTubeIframeAPIReady() {
-  document.querySelectorAll('.player').forEach((el, index) => {
-    players[index] = new YT.Player(el, {
-      videoId: el.dataset.videoId,
-      playerVars: {
-        modestbranding: 1,
-        rel: 0
-      },
-      events: {
-        onStateChange: onPlayerStateChange
-      }
-    });
+function pauseAllExcept(activeFrame) {
+  iframes.forEach(frame => {
+    if (frame !== activeFrame) {
+      frame.contentWindow.postMessage(
+        '{"event":"command","func":"pauseVideo","args":""}',
+        '*'
+      );
+    }
   });
 }
 
-function onPlayerStateChange(event) {
-  if (event.data === YT.PlayerState.PLAYING) {
-    players.forEach(player => {
-      if (player !== event.target) {
-        player.pauseVideo();
-      }
-    });
-  }
-}
+iframes.forEach(frame => {
+  frame.addEventListener('click', () => {
+    pauseAllExcept(frame);
+  });
+});
