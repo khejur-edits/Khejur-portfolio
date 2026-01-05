@@ -63,14 +63,23 @@ body{
   border:none;
 }
 
-/* BLUR + DEPTH EFFECT */
+/* DEFAULT BLURRED STATE */
 .video-card{
   filter:blur(1.2px);
   opacity:.6;
   transform:scale(.95) translateY(14px);
 }
 
-.video-card:hover{
+/* FIRST VIDEO VISIBLE ON LOAD */
+.carousel .video-card:first-child{
+  filter:blur(0);
+  opacity:1;
+  transform:scale(1) translateY(0);
+}
+
+/* ACTIVE / HOVER STATE */
+.video-card:hover,
+.video-card.active{
   filter:blur(0);
   opacity:1;
   transform:scale(1) translateY(0);
