@@ -59,19 +59,16 @@ body{
   border:none;
 }
 
-/* default blur */
 .video-card{
   filter:blur(1.2px);
   opacity:.6;
   transform:scale(.95) translateY(14px);
 }
 
-/* active playing video */
-.video-card.active{
+.video-card:hover{
   filter:blur(0);
   opacity:1;
-  transform:scale(1.05) translateY(0);
-  z-index:2;
+  transform:scale(1) translateY(0);
 }
 
 .nav-btn{
