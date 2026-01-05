@@ -74,9 +74,8 @@ body{
   transform:scale(.88) translateY(22px) translateZ(-40px);
 }
 
-/* ACTIVE / EMERGED */
-.video-card.active,
-.video-card:hover{
+/* ACTIVE / EMERGED (ONLY WHEN SELECTED) */
+.video-card.active{
   filter:blur(0);
   opacity:1;
   transform:scale(1) translateY(0) translateZ(0);
