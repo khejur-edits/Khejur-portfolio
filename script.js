@@ -1,13 +1,20 @@
-// ================= CAROUSEL + SMART NAV =================
+// ================= GLOBAL PLAYER MAP =================
 let players = [];
+let playerToCard = new Map(); // link player -> video-card
 
+// ================= YOUTUBE API =================
 function onYouTubeIframeAPIReady() {
   document.querySelectorAll('.yt-player').forEach((el, i) => {
-    players[i] = new YT.Player(el, {
+    const card = el.closest('.video-card');
+
+    const player = new YT.Player(el, {
       videoId: el.dataset.id,
       playerVars: { rel: 0, modestbranding: 1 },
       events: { onStateChange: onPlayerStateChange }
     });
+
+    players.push(player);
+    playerToCard.set(player, card);
   });
 
   initCarousels();
@@ -16,19 +23,43 @@ function onYouTubeIframeAPIReady() {
 
 function onPlayerStateChange(event){
   if(event.data === YT.PlayerState.PLAYING){
+
+    // 1️⃣ Pause all other videos
     players.forEach(p => {
       if(p !== event.target) p.pauseVideo();
+    });
+
+    // 2️⃣ Activate the card of the playing video
+    const activeCard = playerToCard.get(event.target);
+    if(!activeCard) return;
+
+    const carousel = activeCard.closest('.carousel');
+    const cards = carousel.querySelectorAll('.video-card');
+
+    cards.forEach(c => {
+      c.classList.remove('active');
+      c.classList.add('show');
+    });
+
+    activeCard.classList.add('active');
+
+    // 3️⃣ Smoothly center the playing card
+    activeCard.scrollIntoView({
+      behavior: 'smooth',
+      inline: 'center',
+      block: 'nearest'
     });
   }
 }
 
+// ================= ARROW NAV =================
 function initCarousels(){
   document.querySelectorAll('.carousel-wrapper').forEach(wrapper => {
     const carousel = wrapper.querySelector('.carousel');
     const cards = carousel.querySelectorAll('.video-card');
 
     let index = 0;
-    activateCard(cards, index);
+    setActiveByIndex(index);
 
     wrapper.querySelector('.left').onclick = () => move(-1);
     wrapper.querySelector('.right').onclick = () => move(1);
@@ -37,20 +68,20 @@ function initCarousels(){
       players[index]?.pauseVideo();
 
       index = Math.max(0, Math.min(cards.length - 1, index + dir));
+      setActiveByIndex(index);
 
-      activateCard(cards, index);
       cards[index].scrollIntoView({ behavior: 'smooth', inline: 'center' });
       players[index]?.playVideo();
     }
-  });
-}
 
-function activateCard(cards, index){
-  cards.forEach((c, i) => {
-    c.classList.remove('active');
-    if(i <= index) c.classList.add('show');
+    function setActiveByIndex(i){
+      cards.forEach((c, idx) => {
+        c.classList.remove('active');
+        if(idx <= i) c.classList.add('show');
+      });
+      cards[i].classList.add('active');
+    }
   });
-  cards[index].classList.add('active');
 }
 
 // ================= THEME TOGGLE =================
@@ -63,7 +94,10 @@ if(localStorage.getItem('theme') === 'light'){
 
 toggle.addEventListener('click', () => {
   body.classList.toggle('light');
-  localStorage.setItem('theme', body.classList.contains('light') ? 'light' : 'dark');
+  localStorage.setItem(
+    'theme',
+    body.classList.contains('light') ? 'light' : 'dark'
+  );
 });
 
 // ================= LOAD ANIMATION =================
