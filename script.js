@@ -1,5 +1,5 @@
 // CAROUSEL SCROLL
-document.querySelectorAll('.carousel-wrapper').forEach(wrapper=>{
+document.querySelectorAll('.carousel-wrapper').forEach(wrapper => {
   const carousel = wrapper.querySelector('.carousel');
   const left = wrapper.querySelector('.left');
   const right = wrapper.querySelector('.right');
@@ -8,14 +8,13 @@ document.querySelectorAll('.carousel-wrapper').forEach(wrapper=>{
   right.onclick = () => carousel.scrollBy({ left: 240, behavior: 'smooth' });
 });
 
-
-// AUTO PAUSE OTHER VIDEOS
+// AUTO-PAUSE OTHER VIDEOS
 const iframes = document.querySelectorAll('iframe');
 
-function pauseAllExcept(activeFrame) {
-  iframes.forEach(frame => {
-    if (frame !== activeFrame) {
-      frame.contentWindow.postMessage(
+function pauseAllExcept(active) {
+  iframes.forEach(iframe => {
+    if (iframe !== active) {
+      iframe.contentWindow.postMessage(
         '{"event":"command","func":"pauseVideo","args":""}',
         '*'
       );
@@ -23,8 +22,6 @@ function pauseAllExcept(activeFrame) {
   });
 }
 
-iframes.forEach(frame => {
-  frame.addEventListener('click', () => {
-    pauseAllExcept(frame);
-  });
+iframes.forEach(iframe => {
+  iframe.addEventListener('click', () => pauseAllExcept(iframe));
 });
