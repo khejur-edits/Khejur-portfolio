@@ -34,3 +34,19 @@ function onPlayerStateChange(event) {
     });
   }
 }
+
+const toggle = document.querySelector('.theme-toggle');
+const body = document.body;
+
+// Load saved theme
+if(localStorage.getItem('theme') === 'light'){
+  body.classList.add('light');
+}
+
+toggle.addEventListener('click', () => {
+  body.classList.toggle('light');
+  localStorage.setItem(
+    'theme',
+    body.classList.contains('light') ? 'light' : 'dark'
+  );
+});
