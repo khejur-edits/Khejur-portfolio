@@ -17,6 +17,7 @@ body{
   background: linear-gradient(180deg, #14141a, #0e0e11);
 }
 
+/* LOGO */
 .logo{
   width: 96px;
   height: 96px;
@@ -69,6 +70,7 @@ body{
 }
 
 /* ================= VIDEO CARD (MOBILE DEFAULT) ================= */
+/* 9:16 ratio → 220 x 390 */
 .video-card{
   min-width: 220px;
   height: 390px;
@@ -81,6 +83,7 @@ body{
     opacity 0.4s ease;
 }
 
+/* YouTube API container + iframe */
 .yt-player,
 .yt-player iframe{
   width: 100%;
@@ -88,7 +91,7 @@ body{
   border: none;
 }
 
-/* ================= BLUR + DEPTH ================= */
+/* ================= BLUR + DEPTH EFFECT ================= */
 .video-card{
   filter: blur(1.2px);
   opacity: 0.6;
@@ -120,26 +123,28 @@ body{
 .nav-btn.left{ left: -10px; }
 .nav-btn.right{ right: -10px; }
 
-/* ================= DESKTOP TUNING ================= */
-@media (min-width: 1024px){
+/* ================= DESKTOP IMPROVEMENT ================= */
+@media (min-width: 768px){
 
   .section{
-    padding: 60px 90px;
+    padding: 60px 80px;
   }
 
   .nav-btn{
     display: block;
   }
 
-  /* 🔥 SLIGHTLY BIGGER VIDEOS (DESKTOP ONLY) */
+  /* 🔥 Slightly bigger Shorts for desktop (still comfortable) */
+  /* 9:16 ratio → 260 x 462 */
   .video-card{
     min-width: 260px;
-    height: 460px;
+    height: 462px;
   }
 
-  /* Mild zoom for clarity */
-  .video-card:hover{
-    transform: scale(1.04) translateY(0);
+  /* Subtle zoom-in feel for better visibility */
+  .yt-player iframe{
+    transform: scale(1.04);
+    transform-origin: center;
   }
 }
 
@@ -147,9 +152,6 @@ body{
 .footer{
   text-align: center;
   padding: 30px 20px;
-  color: #777;
-  font-size: 14px;
-}  padding: 30px 20px;
   color: #777;
   font-size: 14px;
 }
