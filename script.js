@@ -1,3 +1,6 @@
+// ================= GLOBAL PLAYER REGISTRY =================
+const ALL_PLAYERS = [];
+
 // ================= YOUTUBE API =================
 function onYouTubeIframeAPIReady() {
   document.querySelectorAll('.carousel-wrapper').forEach(initCarousel);
@@ -14,7 +17,7 @@ function initCarousel(wrapper) {
   let players = [];
   let activeIndex = 0;
 
-  // Init players for THIS carousel only
+  // Init players for THIS carousel
   cards.forEach((card, i) => {
     const el = card.querySelector('.yt-player');
 
@@ -27,6 +30,7 @@ function initCarousel(wrapper) {
     });
 
     players.push(player);
+    ALL_PLAYERS.push(player);
   });
 
   // Initial state
@@ -37,7 +41,7 @@ function initCarousel(wrapper) {
   rightBtn.onclick = () => move(1);
 
   function move(dir) {
-    players[activeIndex]?.pauseVideo();
+    pauseAllExcept(players[activeIndex]);
 
     activeIndex = Math.max(0, Math.min(cards.length - 1, activeIndex + dir));
     setActive(activeIndex);
@@ -50,10 +54,7 @@ function initCarousel(wrapper) {
   function onPlayerStateChange(event, index) {
     if (event.data === YT.PlayerState.PLAYING) {
 
-      // Pause others in THIS carousel only
-      players.forEach((p, i) => {
-        if (i !== index) p.pauseVideo();
-      });
+      pauseAllExcept(event.target);
 
       activeIndex = index;
       setActive(activeIndex);
@@ -69,6 +70,15 @@ function initCarousel(wrapper) {
     });
     cards[index].classList.add('active');
   }
+}
+
+// ================= GLOBAL PAUSE =================
+function pauseAllExcept(activePlayer) {
+  ALL_PLAYERS.forEach(p => {
+    if (p !== activePlayer) {
+      try { p.pauseVideo(); } catch(e){}
+    }
+  });
 }
 
 // ================= SAFE CENTERING (NO VERTICAL SCROLL) =================
