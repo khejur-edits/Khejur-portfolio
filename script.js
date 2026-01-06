@@ -29,6 +29,7 @@ function initCarousel(wrapper) {
     players.push(player);
   });
 
+  // Initial state
   setActive(activeIndex);
 
   // ================= BUTTON NAV =================
@@ -40,7 +41,8 @@ function initCarousel(wrapper) {
 
     activeIndex = Math.max(0, Math.min(cards.length - 1, activeIndex + dir));
     setActive(activeIndex);
-    scrollToCenter(cards[activeIndex]);
+
+    centerCard(cards[activeIndex], carousel);
     players[activeIndex]?.playVideo();
   }
 
@@ -48,32 +50,15 @@ function initCarousel(wrapper) {
   function onPlayerStateChange(event, index) {
     if (event.data === YT.PlayerState.PLAYING) {
 
-      // Pause others (THIS carousel only)
+      // Pause others in THIS carousel only
       players.forEach((p, i) => {
         if (i !== index) p.pauseVideo();
       });
 
       activeIndex = index;
       setActive(activeIndex);
-      scrollToCenter(cards[activeIndex]);
+      centerCard(cards[activeIndex], carousel);
     }
-  }
-
-  // ================= CENTER SCROLL (NO VERTICAL MOVE) =================
-  function scrollToCenter(card) {
-    const carouselRect = carousel.getBoundingClientRect();
-    const cardRect = card.getBoundingClientRect();
-
-    const offset =
-      cardRect.left -
-      carouselRect.left -
-      (carouselRect.width / 2) +
-      (cardRect.width / 2);
-
-    carousel.scrollBy({
-      left: offset,
-      behavior: 'smooth'
-    });
   }
 
   // ================= UI STATE =================
@@ -84,6 +69,22 @@ function initCarousel(wrapper) {
     });
     cards[index].classList.add('active');
   }
+}
+
+// ================= SAFE CENTERING (NO VERTICAL SCROLL) =================
+function centerCard(card, carousel) {
+  const cardRect = card.getBoundingClientRect();
+  const carouselRect = carousel.getBoundingClientRect();
+
+  const offset =
+    cardRect.left -
+    carouselRect.left -
+    (carouselRect.width / 2 - cardRect.width / 2);
+
+  carousel.scrollBy({
+    left: offset,
+    behavior: 'smooth'
+  });
 }
 
 // ================= THEME TOGGLE =================
