@@ -87,6 +87,11 @@ body.light .logo{
 
 .carousel::-webkit-scrollbar{ display: none; }
 
+/* Prevent mobile vertical jump when centering videos */
+.carousel{
+  overscroll-behavior-y: contain;
+}
+
 /* ================= VIDEO CARD ================= */
 .video-card{
   min-width: 220px;
