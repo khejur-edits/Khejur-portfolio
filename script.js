@@ -1,5 +1,6 @@
-// ================= GLOBAL PLAYER REGISTRY =================
+// ================= GLOBAL PLAYER STATE =================
 const ALL_PLAYERS = [];
+let CURRENT_PLAYER = null;
 
 // ================= YOUTUBE API =================
 function onYouTubeIframeAPIReady() {
@@ -17,13 +18,15 @@ function initCarousel(wrapper) {
   let players = [];
   let activeIndex = 0;
 
-  // Init players for THIS carousel
   cards.forEach((card, i) => {
     const el = card.querySelector('.yt-player');
 
     const player = new YT.Player(el, {
       videoId: el.dataset.id,
-      playerVars: { rel: 0, modestbranding: 1 },
+      playerVars: {
+        rel: 0,
+        modestbranding: 1
+      },
       events: {
         onStateChange: e => onPlayerStateChange(e, i)
       }
@@ -33,36 +36,36 @@ function initCarousel(wrapper) {
     ALL_PLAYERS.push(player);
   });
 
-  // Initial state
   setActive(activeIndex);
 
-  // ================= BUTTON NAV =================
   leftBtn.onclick = () => move(-1);
   rightBtn.onclick = () => move(1);
 
   function move(dir) {
-    pauseAllExcept(players[activeIndex]);
+    forcePauseGlobal();
 
     activeIndex = Math.max(0, Math.min(cards.length - 1, activeIndex + dir));
     setActive(activeIndex);
-
     centerCard(cards[activeIndex], carousel);
+
     players[activeIndex]?.playVideo();
+    CURRENT_PLAYER = players[activeIndex];
   }
 
-  // ================= PLAYER STATE =================
   function onPlayerStateChange(event, index) {
     if (event.data === YT.PlayerState.PLAYING) {
 
-      pauseAllExcept(event.target);
+      // HARD STOP all other videos
+      forcePauseGlobal(event.target);
 
+      CURRENT_PLAYER = event.target;
       activeIndex = index;
+
       setActive(activeIndex);
       centerCard(cards[activeIndex], carousel);
     }
   }
 
-  // ================= UI STATE =================
   function setActive(index) {
     cards.forEach((card, i) => {
       card.classList.remove('active');
@@ -72,16 +75,16 @@ function initCarousel(wrapper) {
   }
 }
 
-// ================= GLOBAL PAUSE =================
-function pauseAllExcept(activePlayer) {
+// ================= GLOBAL PAUSE (BULLETPROOF) =================
+function forcePauseGlobal(except = null) {
   ALL_PLAYERS.forEach(p => {
-    if (p !== activePlayer) {
+    if (p !== except) {
       try { p.pauseVideo(); } catch(e){}
     }
   });
 }
 
-// ================= SAFE CENTERING (NO VERTICAL SCROLL) =================
+// ================= SAFE CENTERING =================
 function centerCard(card, carousel) {
   const cardRect = card.getBoundingClientRect();
   const carouselRect = carousel.getBoundingClientRect();
@@ -91,10 +94,7 @@ function centerCard(card, carousel) {
     carouselRect.left -
     (carouselRect.width / 2 - cardRect.width / 2);
 
-  carousel.scrollBy({
-    left: offset,
-    behavior: 'smooth'
-  });
+  carousel.scrollBy({ left: offset, behavior: 'smooth' });
 }
 
 // ================= THEME TOGGLE =================
