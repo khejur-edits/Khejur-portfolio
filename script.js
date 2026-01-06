@@ -29,7 +29,6 @@ function initCarousel(wrapper) {
     players.push(player);
   });
 
-  // Initial state
   setActive(activeIndex);
 
   // ================= BUTTON NAV =================
@@ -37,18 +36,11 @@ function initCarousel(wrapper) {
   rightBtn.onclick = () => move(1);
 
   function move(dir) {
-    if (players[activeIndex]) {
-      players[activeIndex].pauseVideo();
-    }
+    players[activeIndex]?.pauseVideo();
 
     activeIndex = Math.max(0, Math.min(cards.length - 1, activeIndex + dir));
     setActive(activeIndex);
-
-    cards[activeIndex].scrollIntoView({
-      behavior: 'smooth',
-      inline: 'center'
-    });
-
+    scrollToCenter(cards[activeIndex]);
     players[activeIndex]?.playVideo();
   }
 
@@ -56,19 +48,32 @@ function initCarousel(wrapper) {
   function onPlayerStateChange(event, index) {
     if (event.data === YT.PlayerState.PLAYING) {
 
-      // Pause others in THIS carousel only
+      // Pause others (THIS carousel only)
       players.forEach((p, i) => {
         if (i !== index) p.pauseVideo();
       });
 
       activeIndex = index;
       setActive(activeIndex);
-
-      cards[activeIndex].scrollIntoView({
-        behavior: 'smooth',
-        inline: 'center'
-      });
+      scrollToCenter(cards[activeIndex]);
     }
+  }
+
+  // ================= CENTER SCROLL (NO VERTICAL MOVE) =================
+  function scrollToCenter(card) {
+    const carouselRect = carousel.getBoundingClientRect();
+    const cardRect = card.getBoundingClientRect();
+
+    const offset =
+      cardRect.left -
+      carouselRect.left -
+      (carouselRect.width / 2) +
+      (cardRect.width / 2);
+
+    carousel.scrollBy({
+      left: offset,
+      behavior: 'smooth'
+    });
   }
 
   // ================= UI STATE =================
