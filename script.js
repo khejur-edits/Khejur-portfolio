@@ -1,121 +1,113 @@
-// ================= GLOBAL PLAYER REGISTRY =================
+// ================= GLOBAL PLAYER STORAGE =================
 const ALL_PLAYERS = [];
 
-// ================= YOUTUBE API =================
-function onYouTubeIframeAPIReady() {
-  document.querySelectorAll('.carousel-wrapper').forEach(initCarousel);
-  revealOnLoad();
+// ================= YOUTUBE API READY =================
+function onYouTubeIframeAPIReady(){
+document.querySelectorAll('.carousel-wrapper').forEach(initCarousel);
+revealOnLoad();
 }
 
-// ================= PER-CAROUSEL LOGIC =================
-function initCarousel(wrapper) {
-  const carousel = wrapper.querySelector('.carousel');
-  const cards = [...carousel.querySelectorAll('.video-card')];
-  const leftBtn = wrapper.querySelector('.left');
-  const rightBtn = wrapper.querySelector('.right');
+// ================= CAROUSEL INIT =================
+function initCarousel(wrapper){
 
-  let players = [];
-  let activeIndex = 0;
+const carousel = wrapper.querySelector('.carousel');
+const cards = [...carousel.querySelectorAll('.video-card')];
+const leftBtn = wrapper.querySelector('.left');
+const rightBtn = wrapper.querySelector('.right');
 
-  // Init players for THIS carousel
-  cards.forEach((card, i) => {
-    const el = card.querySelector('.yt-player');
+let players=[];
+let activeIndex=0;
 
-    const player = new YT.Player(el, {
-      videoId: el.dataset.id,
-      playerVars: { rel: 0, modestbranding: 1 },
-      events: {
-        onStateChange: e => onPlayerStateChange(e, i)
-      }
-    });
+// ---------- CREATE PLAYERS ----------
+cards.forEach((card,i)=>{
 
-    players.push(player);
-    ALL_PLAYERS.push(player);
-  });
+const el = card.querySelector('.yt-player');
 
-  // Initial state
-  setActive(activeIndex);
+const player = new YT.Player(el,{
+videoId:el.dataset.id,
+playerVars:{rel:0,modestbranding:1},
+events:{
+onStateChange:e=>playerState(e,i)
+}
+});
 
-  // ================= BUTTON NAV =================
-  leftBtn.onclick = () => move(-1);
-  rightBtn.onclick = () => move(1);
+players.push(player);
+ALL_PLAYERS.push(player);
 
-  function move(dir) {
-    pauseAllExcept(players[activeIndex]);
+// tap card → activate
+card.addEventListener("click",()=>{
+setActive(i);
+centerCard(card,carousel);
+});
+});
 
-    activeIndex = Math.max(0, Math.min(cards.length - 1, activeIndex + dir));
-    setActive(activeIndex);
+// ---------- BUTTON NAV ----------
+leftBtn.onclick=()=>move(-1);
+rightBtn.onclick=()=>move(1);
 
-    centerCard(cards[activeIndex], carousel);
-    players[activeIndex]?.playVideo();
-  }
+function move(dir){
+activeIndex=Math.max(0,Math.min(cards.length-1,activeIndex+dir));
+setActive(activeIndex);
+centerCard(cards[activeIndex],carousel);
+}
 
-  // ================= PLAYER STATE =================
-  function onPlayerStateChange(event, index) {
-    if (event.data === YT.PlayerState.PLAYING) {
+// ---------- PLAYER STATE ----------
+function playerState(e,index){
+if(e.data===YT.PlayerState.PLAYING){
+pauseAllExcept(e.target);
+activeIndex=index;
+setActive(index);
+centerCard(cards[index],carousel);
+}
+}
 
-      pauseAllExcept(event.target);
-
-      activeIndex = index;
-      setActive(activeIndex);
-      centerCard(cards[activeIndex], carousel);
-    }
-  }
-
-  // ================= UI STATE =================
-  function setActive(index) {
-    cards.forEach((card, i) => {
-      card.classList.remove('active');
-      if (i <= index) card.classList.add('show');
-    });
-    cards[index].classList.add('active');
-  }
+// ---------- ACTIVE UI ----------
+function setActive(index){
+cards.forEach(c=>c.classList.remove("active"));
+cards[index].classList.add("active");
+}
 }
 
 // ================= GLOBAL PAUSE =================
-function pauseAllExcept(activePlayer) {
-  ALL_PLAYERS.forEach(p => {
-    if (p !== activePlayer) {
-      try { p.pauseVideo(); } catch(e){}
-    }
-  });
+function pauseAllExcept(active){
+ALL_PLAYERS.forEach(p=>{
+if(p!==active){
+try{p.pauseVideo();}catch{}
+}
+});
 }
 
-// ================= SAFE CENTERING (NO VERTICAL SCROLL) =================
-function centerCard(card, carousel) {
-  const cardRect = card.getBoundingClientRect();
-  const carouselRect = carousel.getBoundingClientRect();
+// ================= CENTER CARD =================
+function centerCard(card,carousel){
 
-  const offset =
-    cardRect.left -
-    carouselRect.left -
-    (carouselRect.width / 2 - cardRect.width / 2);
+const cardRect=card.getBoundingClientRect();
+const carouselRect=carousel.getBoundingClientRect();
 
-  carousel.scrollBy({
-    left: offset,
-    behavior: 'smooth'
-  });
+const offset=
+cardRect.left-
+carouselRect.left-
+(carouselRect.width/2-cardRect.width/2);
+
+carousel.scrollBy({left:offset,behavior:"smooth"});
 }
 
 // ================= THEME TOGGLE =================
-const toggle = document.querySelector('.theme-toggle');
-const body = document.body;
+const toggle=document.querySelector(".theme-toggle");
 
-if (localStorage.getItem('theme') === 'light') {
-  body.classList.add('light');
-}
+if(localStorage.getItem("theme")==="light")
+document.body.classList.add("light");
 
-toggle.addEventListener('click', () => {
-  body.classList.toggle('light');
-  localStorage.setItem(
-    'theme',
-    body.classList.contains('light') ? 'light' : 'dark'
-  );
+toggle.addEventListener("click",()=>{
+document.body.classList.toggle("light");
+localStorage.setItem(
+"theme",
+document.body.classList.contains("light")?"light":"dark"
+);
 });
 
 // ================= LOAD ANIMATION =================
-function revealOnLoad() {
-  document.querySelectorAll('.video-card').forEach((card, i) => {
-    setTimeout(() => card.classList.add('show'), i * 120);
-  });
+function revealOnLoad(){
+document.querySelectorAll(".video-card").forEach((card,i)=>{
+setTimeout(()=>card.classList.add("show"),i*120);
+});
 }
