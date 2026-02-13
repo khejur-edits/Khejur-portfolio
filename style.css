@@ -183,200 +183,191 @@ padding:0;
 box-sizing:border-box;
 }
 
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
 body{
-font-family:'Clash Display',sans-serif;
-color:#fff;
-overflow-x:hidden;
-background:
-radial-gradient(1200px 600px at 10% -10%, rgba(120,100,255,0.18), transparent 40%),
-radial-gradient(1000px 500px at 90% 10%, rgba(0,200,255,0.16), transparent 45%),
-linear-gradient(180deg,#0a0b10,#0e0f16 45%,#07080c);
-transition:.5s ease;
+  font-family:'Clash Display',sans-serif;
+  color:#fff;
+  overflow-x:hidden;
+
+  background:
+  radial-gradient(1200px 600px at 10% -10%, rgba(120,100,255,0.18), transparent 40%),
+  radial-gradient(1000px 500px at 90% 10%, rgba(0,200,255,0.16), transparent 45%),
+  linear-gradient(180deg,#0a0b10,#0e0f16 45%,#07080c);
 }
 
 body.light{
-color:#111;
-background:
-radial-gradient(1200px 600px at 10% -10%, rgba(120,160,255,0.35), transparent 45%),
-radial-gradient(1000px 500px at 90% 10%, rgba(180,220,255,0.4), transparent 50%),
-linear-gradient(180deg,#f5f7fb,#eef1f7 45%,#e6ebf2);
+  color:#111;
+  background:
+  radial-gradient(1200px 600px at 10% -10%, rgba(120,160,255,0.35), transparent 45%),
+  radial-gradient(1000px 500px at 90% 10%, rgba(180,220,255,0.4), transparent 50%),
+  linear-gradient(180deg,#f5f7fb,#eef1f7 45%,#e6ebf2);
 }
 
 /* HEADER */
 .header{
-text-align:center;
-padding:80px 20px 60px;
+  padding:80px 20px 60px;
+  text-align:center;
 }
 
 .logo{
-width:96px;
-height:96px;
-border-radius:50%;
-object-fit:cover;
-margin-bottom:14px;
-}
-
-/* THEME TOGGLE FIX */
-.theme-toggle{
-position:fixed;
-top:20px;
-right:20px;
-width:58px;
-height:32px;
-border-radius:999px;
-border:1px solid rgba(255,255,255,.3);
-background:rgba(255,255,255,.08);
-backdrop-filter:blur(15px);
-z-index:999;
-cursor:pointer;
-}
-
-.toggle-pill{
-width:24px;
-height:24px;
-border-radius:50%;
-background:white;
-position:absolute;
-top:4px;
-left:4px;
-transition:.3s ease;
-}
-
-body.light .toggle-pill{
-transform:translateX(26px);
+  width:96px;
+  height:96px;
+  border-radius:50%;
+  object-fit:cover;
+  margin-bottom:14px;
 }
 
 /* SECTION */
 .section{
-padding:60px 0;
-width:100%;
+  padding:50px 20px;
 }
 
 .section h2{
-padding:0 20px;
-margin-bottom:20px;
-font-weight:600;
-}
-
-/* CAROUSEL WRAPPER */
-.carousel-wrapper{
-position:relative;
-width:100%;
-overflow:hidden;
+  margin-bottom:25px;
+  font-weight:600;
 }
 
 /* CAROUSEL */
-.carousel{
-display:flex;
-gap:18px;
-overflow-x:auto;
-scroll-behavior:smooth;
-padding:0 60px;   /* space for buttons */
-scrollbar-width:none;
+.carousel-wrapper{
+  position:relative;
 }
 
-.carousel::-webkit-scrollbar{display:none;}
+.carousel{
+  display:flex;
+  gap:20px;
+  overflow-x:auto;
+  scroll-behavior:smooth;
+  padding:20px 0;
+  scrollbar-width:none;
+}
+
+.carousel::-webkit-scrollbar{
+  display:none;
+}
 
 /* VIDEO CARD */
 .video-card{
-min-width:220px;
-height:390px;
-border-radius:22px;
-overflow:hidden;
-background:rgba(20,22,30,.6);
-backdrop-filter:blur(20px);
-border:1px solid rgba(255,255,255,.15);
-box-shadow:0 25px 60px rgba(0,0,0,.5);
-opacity:0;
-transform:scale(.85) translateY(40px);
-transition:.6s cubic-bezier(.22,.61,.36,1);
-}
+  min-width:240px;
+  height:420px;
+  border-radius:22px;
+  overflow:hidden;
 
-.video-card.show{
-opacity:.6;
-transform:scale(.95) translateY(14px);
+  background:#000;
+  box-shadow:0 30px 60px rgba(0,0,0,.6);
+
+  opacity:.4;
+  transform:scale(.9);
+  transition:.4s ease;
 }
 
 .video-card.active{
-opacity:1;
-transform:scale(1) translateY(0);
+  opacity:1;
+  transform:scale(1);
 }
 
-.yt-player,
-.yt-player iframe{
-width:100%;
-height:100%;
-border:none;
+.video-card iframe,
+.yt-player{
+  width:100%;
+  height:100%;
+  border:none;
 }
 
-/* NAV BUTTONS FIXED */
+/* NAV BUTTONS */
 .nav-btn{
-position:absolute;
-top:50%;
-transform:translateY(-50%);
-z-index:10;
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  z-index:10;
 
-width:44px;
-height:44px;
-border-radius:50%;
-border:1px solid rgba(255,255,255,.3);
-background:rgba(255,255,255,.08);
-backdrop-filter:blur(15px);
-display:flex;
-align-items:center;
-justify-content:center;
-cursor:pointer;
-color:white;
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.3);
+  background:rgba(255,255,255,.08);
+  backdrop-filter:blur(12px);
+  color:white;
+  font-size:22px;
+  cursor:pointer;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
-.nav-btn.left{ left:10px; }
-.nav-btn.right{ right:10px; }
+.nav-btn.left{ left:8px; }
+.nav-btn.right{ right:8px; }
 
-/* MOBILE SCROLL BUTTON FIX */
-.mobile-scroll{
-position:fixed;
-bottom:40px;
-left:50%;
-transform:translateX(-50%);
-width:44px;
-height:44px;
-border-radius:50%;
-border:1px solid rgba(255,255,255,.3);
-background:rgba(255,255,255,.08);
-backdrop-filter:blur(15px);
-display:flex;
-align-items:center;
-justify-content:center;
-cursor:pointer;
-z-index:100;
-color:white;
+/* THEME TOGGLE */
+.theme-toggle{
+  position:fixed;
+  top:20px;
+  right:20px;
+  width:58px;
+  height:32px;
+  border-radius:999px;
+  background:rgba(255,255,255,.1);
+  border:1px solid rgba(255,255,255,.3);
+  cursor:pointer;
+  z-index:999;
 }
 
-/* DESKTOP */
-@media(min-width:768px){
-
-.section{
-padding:80px 0;
+.toggle-pill{
+  width:24px;
+  height:24px;
+  border-radius:50%;
+  background:white;
+  position:absolute;
+  top:4px;
+  left:4px;
+  transition:.3s;
 }
 
-.carousel{
-padding:0 80px;
+body.light .toggle-pill{
+  transform:translateX(26px);
 }
 
-.video-card{
-min-width:260px;
-height:462px;
-}
-
-.mobile-scroll{
-display:none;
-}
-
+/* SCROLL DOWN BUTTON */
+.scroll-down{
+  position:fixed;
+  bottom:50px;
+  left:50%;
+  transform:translateX(-50%);
+  width:50px;
+  height:50px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.3);
+  background:rgba(255,255,255,.08);
+  backdrop-filter:blur(12px);
+  color:white;
+  font-size:22px;
+  cursor:pointer;
+  z-index:50;
 }
 
 /* FOOTER */
 .footer{
-text-align:center;
-padding:50px 20px;
-opacity:.6;
+  text-align:center;
+  padding:60px 20px;
+  opacity:.6;
+}
+
+/* DESKTOP */
+@media(min-width:1024px){
+
+  .section{
+    padding:80px 80px;
+  }
+
+  .video-card{
+    min-width:280px;
+    height:500px;
+  }
+
+  .nav-btn.left{ left:-20px; }
+  .nav-btn.right{ right:-20px; }
 }
