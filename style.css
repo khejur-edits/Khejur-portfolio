@@ -191,148 +191,94 @@ box-sizing:border-box;
 }
 
 body{
-font-family:'Clash Display',sans-serif;
-color:#fff;
-overflow-x:hidden;
-background:
-radial-gradient(1200px 600px at 10% -10%, rgba(120,100,255,0.18), transparent 40%),
-radial-gradient(1000px 500px at 90% 10%, rgba(0,200,255,0.16), transparent 45%),
-linear-gradient(180deg,#0a0b10,#0e0f16 45%,#07080c);
-transition:.5s ease;
+transition: transform 0.35s ease;
 }
 
-body.light{
-color:#111;
-background:
-radial-gradient(1200px 600px at 10% -10%, rgba(120,160,255,0.35), transparent 45%),
-radial-gradient(1000px 500px at 90% 10%, rgba(180,220,255,0.4), transparent 50%),
-linear-gradient(180deg,#f5f7fb,#eef1f7 45%,#e6ebf2);
+body.light .toggle-pill{
+transform: translateX(26px);
 }
 
-/* HEADER */
-.header{
-text-align:center;
-padding:80px 20px 60px;
+body.light .theme-toggle{
+border: 1px solid var(--glass-border-light);
 }
 
-.logo{
-width:96px;
-height:96px;
-border-radius:50%;
-object-fit:cover;
-margin-bottom:14px;
+/* ================= DESKTOP ================= */
+@media (min-width: 768px){
+.section{ padding: 60px 80px; }
+.nav-btn{ display: flex; align-items: center; }
+.video-card{ min-width: 260px; height: 462px; }
 }
 
-/* SECTION */
-.section{
-padding:60px 20px;
-width:100%;
-}
-
-.section h2{
-margin-bottom:20px;
-font-weight:600;
-}
-
-/* CAROUSEL */
-.carousel-wrapper{
-position:relative;
-width:100%;
-}
-
-.carousel{
-display:flex;
-gap:18px;
-overflow-x:auto;
-scroll-behavior:smooth;
-scrollbar-width:none;
-padding:0 20px;
-}
-
-.carousel::-webkit-scrollbar{display:none;}
-
-/* VIDEO CARD */
-.video-card{
-min-width:220px;
-height:390px;
-border-radius:22px;
-overflow:hidden;
-background:rgba(20,22,30,.6);
-backdrop-filter:blur(20px);
-border:1px solid rgba(255,255,255,.15);
-box-shadow:0 25px 60px rgba(0,0,0,.5);
-opacity:0;
-transform:scale(.85) translateY(40px);
-transition:.6s cubic-bezier(.22,.61,.36,1);
-}
-
-.video-card.show{
-opacity:.6;
-transform:scale(.95) translateY(14px);
-}
-
-.video-card.active{
-opacity:1;
-transform:scale(1) translateY(0);
-}
-
-.yt-player,
-.yt-player iframe{
-width:100%;
-height:100%;
-border:none;
-}
-
-/* NAV BUTTON */
-.nav-btn{
-position:absolute;
-top:50%;
-transform:translateY(-50%);
-z-index:5;
-width:42px;
-height:42px;
-border-radius:50%;
-border:1px solid rgba(255,255,255,.3);
-background:rgba(255,255,255,.08);
-backdrop-filter:blur(15px);
-display:flex;
-align-items:center;
-justify-content:center;
-cursor:pointer;
-}
-
-.nav-btn.left{left:5px;}
-.nav-btn.right{right:5px;}
-
-/* MOBILE SCROLL BUTTON */
-.mobile-scroll{
-position:fixed;
-bottom:30px;
-left:50%;
-transform:translateX(-50%);
-width:42px;
-height:42px;
-border-radius:50%;
-border:1px solid rgba(255,255,255,.3);
-background:rgba(255,255,255,.08);
-backdrop-filter:blur(15px);
-color:inherit;
-font-size:20px;
-display:flex;
-align-items:center;
-justify-content:center;
-cursor:pointer;
-z-index:50;
-}
-
-@media(min-width:768px){
-.mobile-scroll{display:none;}
-.video-card{min-width:260px;height:462px;}
-}
-
-/* FOOTER */
+/* ================= FOOTER ================= */
 .footer{
-text-align:center;
-padding:50px 20px;
-opacity:.6;
+text-align: center;
+padding: 30px 20px;
+opacity: 0.7;
+}
+
+/* ================= WATER-GLASS NAV BUTTONS ================= */
+.nav-btn{
+  display: flex;                /* ✅ ENABLED ON MOBILE */
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+
+  height: 40px;                 /* slightly smaller for mobile */
+  padding: 0 18px;
+  border-radius: 999px;
+  border: 1px solid var(--glass-border-dark);
+
+  font-size: 22px;
+  cursor: pointer;
+  color: inherit;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255,255,255,0.12),
+      rgba(255,255,255,0.03)
+    ),
+    var(--glass-bg-dark);
+
+  backdrop-filter: blur(26px) saturate(160%);
+  box-shadow:
+    0 10px 28px rgba(0,0,0,0.35),
+    inset 0 1px 1px rgba(255,255,255,0.35);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.nav-btn:hover{
+  transform: translateY(-50%) scale(1.06);
+}
+
+.nav-btn.left{ left: -12px; }
+.nav-btn.right{ right: -12px; }
+
+body.light .nav-btn{
+  border: 1px solid var(--glass-border-light);
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255,255,255,0.75),
+      rgba(255,255,255,0.35)
+    ),
+    var(--glass-bg-light);
+}
+
+/* ================= DESKTOP REFINEMENT ================= */
+@media (min-width: 768px){
+  .nav-btn{
+    height: 44px;
+    padding: 0 22px;
+    font-size: 26px;
+  }
+
+  .video-card{
+    min-width: 260px;
+    height: 462px;
+  }
 }
