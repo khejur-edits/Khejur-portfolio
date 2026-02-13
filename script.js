@@ -1,15 +1,9 @@
-// ========= GLOBAL PLAYER STORE =========
 const ALL_PLAYERS=[];
 
-
-// ========= API READY =========
 function onYouTubeIframeAPIReady(){
 document.querySelectorAll(".carousel-wrapper").forEach(initCarousel);
-revealOnLoad();
 }
 
-
-// ========= CAROUSEL =========
 function initCarousel(wrapper){
 
 const carousel=wrapper.querySelector(".carousel");
@@ -17,11 +11,8 @@ const cards=[...wrapper.querySelectorAll(".video-card")];
 const leftBtn=wrapper.querySelector(".left");
 const rightBtn=wrapper.querySelector(".right");
 
-let players=[];
 let activeIndex=0;
 
-
-// ----- CREATE PLAYERS -----
 cards.forEach((card,i)=>{
 
 const el=card.querySelector(".yt-player");
@@ -29,54 +20,42 @@ const el=card.querySelector(".yt-player");
 const player=new YT.Player(el,{
 videoId:el.dataset.id,
 playerVars:{rel:0,modestbranding:1},
-events:{onStateChange:e=>onPlay(e,i)}
+events:{
+onStateChange:e=>{
+if(e.data===YT.PlayerState.PLAYING){
+pauseAllExcept(e.target);
+}
+}
+}
 });
 
-players.push(player);
 ALL_PLAYERS.push(player);
 
-
-// tap card → activate
 card.addEventListener("click",()=>{
+activeIndex=i;
 setActive(i);
-centerCard(card,carousel);
 });
 
 });
 
-
-// ----- BUTTONS -----
 leftBtn.onclick=()=>move(-1);
 rightBtn.onclick=()=>move(1);
 
 function move(dir){
 activeIndex=Math.max(0,Math.min(cards.length-1,activeIndex+dir));
+carousel.scrollBy({
+left:dir*250,
+behavior:"smooth"
+});
 setActive(activeIndex);
-centerCard(cards[activeIndex],carousel);
 }
 
-
-// ----- PLAYER STATE -----
-function onPlay(e,index){
-if(e.data===YT.PlayerState.PLAYING){
-pauseAllExcept(e.target);
-activeIndex=index;
-setActive(index);
-centerCard(cards[index],carousel);
-}
-}
-
-
-// ----- ACTIVE STYLE -----
 function setActive(i){
 cards.forEach(c=>c.classList.remove("active"));
 cards[i].classList.add("active");
 }
-
 }
 
-
-// ========= GLOBAL PAUSE =========
 function pauseAllExcept(active){
 ALL_PLAYERS.forEach(p=>{
 if(p!==active){
@@ -85,26 +64,38 @@ try{p.pauseVideo();}catch{}
 });
 }
 
+/* FIX MOBILE SCROLL ISSUE */
 
-// ========= CENTER CARD =========
-function centerCard(card,carousel){
+document.addEventListener("touchstart",function(){
+document.querySelectorAll("iframe").forEach(i=>{
+i.style.pointerEvents="none";
+});
+});
 
-const rect=card.getBoundingClientRect();
-const crect=carousel.getBoundingClientRect();
+document.addEventListener("touchend",function(){
+document.querySelectorAll(".video-card.active iframe").forEach(i=>{
+i.style.pointerEvents="auto";
+});
+});
 
-const offset=
-rect.left-crect.left-
-(crect.width/2-rect.width/2);
+/* SCROLL DOWN BUTTON */
 
-carousel.scrollBy({left:offset,behavior:"smooth"});
-}
+const scrollBtn=document.querySelector(".scroll-down");
 
+scrollBtn.addEventListener("click",()=>{
+window.scrollBy({
+top:window.innerHeight,
+behavior:"smooth"
+});
+});
 
-// ========= THEME =========
+/* THEME */
+
 const toggle=document.querySelector(".theme-toggle");
 
-if(localStorage.getItem("theme")==="light")
+if(localStorage.getItem("theme")==="light"){
 document.body.classList.add("light");
+}
 
 toggle.addEventListener("click",()=>{
 document.body.classList.toggle("light");
@@ -113,11 +104,3 @@ localStorage.setItem(
 document.body.classList.contains("light")?"light":"dark"
 );
 });
-
-
-// ========= LOAD ANIMATION =========
-function revealOnLoad(){
-document.querySelectorAll(".video-card").forEach((card,i)=>{
-setTimeout(()=>card.classList.add("show"),i*120);
-});
-}
