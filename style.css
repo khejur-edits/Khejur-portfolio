@@ -121,8 +121,13 @@ body.light{
   justify-content:center;
 }
 
-.nav-btn.left{ left:20px; }
-.nav-btn.right{ right:20px; }
+.nav-btn.left{
+  left: max(16px, env(safe-area-inset-left));
+}
+
+.nav-btn.right{
+  right: max(16px, env(safe-area-inset-right));
+}
 
 /* THEME TOGGLE */
 .theme-toggle{
