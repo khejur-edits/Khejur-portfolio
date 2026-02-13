@@ -1,57 +1,132 @@
-// ================= HORIZONTAL NAVIGATION =================
-document.querySelectorAll(".carousel-wrapper").forEach(wrapper=>{
-const carousel = wrapper.querySelector(".carousel");
-const left = wrapper.querySelector(".left");
-const right = wrapper.querySelector(".right");
+// ================= GLOBAL PLAYER REGISTRY =================
+const ALL_PLAYERS = [];
 
-left.addEventListener("click",()=>{
-carousel.scrollBy({left:-300,behavior:"smooth"});
-});
-
-right.addEventListener("click",()=>{
-carousel.scrollBy({left:300,behavior:"smooth"});
-});
-
-// ================= CENTER ACTIVE CARD EFFECT =================
-const cards = wrapper.querySelectorAll(".video-card");
-
-function updateActiveCard(){
-const center = window.innerWidth / 2;
-
-cards.forEach(card=>{
-const rect = card.getBoundingClientRect();
-const cardCenter = rect.left + rect.width / 2;
-const distance = Math.abs(center - cardCenter);
-
-if(distance < 150){
-card.classList.add("active");
-card.classList.remove("show");
-}else if(distance < 300){
-card.classList.add("show");
-card.classList.remove("active");
-}else{
-card.classList.remove("active","show");
-}
-});
+// ================= YOUTUBE API =================
+function onYouTubeIframeAPIReady() {
+  document.querySelectorAll('.carousel-wrapper').forEach(initCarousel);
+  revealOnLoad();
 }
 
-carousel.addEventListener("scroll",updateActiveCard);
-window.addEventListener("resize",updateActiveCard);
-updateActiveCard();
+// ================= PER-CAROUSEL LOGIC =================
+function initCarousel(wrapper) {
+  const carousel = wrapper.querySelector('.carousel');
+  const cards = [...carousel.querySelectorAll('.video-card')];
+  const leftBtn = wrapper.querySelector('.left');
+  const rightBtn = wrapper.querySelector('.right');
+
+  let players = [];
+  let activeIndex = 0;
+
+  // Init players for THIS carousel
+  cards.forEach((card, i) => {
+    const el = card.querySelector('.yt-player');
+
+    const player = new YT.Player(el, {
+      videoId: el.dataset.id,
+      playerVars: { rel: 0, modestbranding: 1 },
+      events: {
+        onStateChange: e => onPlayerStateChange(e, i)
+      }
+    });
+
+    players.push(player);
+    ALL_PLAYERS.push(player);
+  });
+
+  // Initial state
+  setActive(activeIndex);
+
+  // ================= BUTTON NAV =================
+  leftBtn.onclick = () => move(-1);
+  rightBtn.onclick = () => move(1);
+
+  function move(dir) {
+    pauseAllExcept(players[activeIndex]);
+
+    activeIndex = Math.max(0, Math.min(cards.length - 1, activeIndex + dir));
+    setActive(activeIndex);
+
+    centerCard(cards[activeIndex], carousel);
+    players[activeIndex]?.playVideo();
+  }
+
+  // ================= PLAYER STATE =================
+  function onPlayerStateChange(event, index) {
+    if (event.data === YT.PlayerState.PLAYING) {
+
+      pauseAllExcept(event.target);
+
+      activeIndex = index;
+      setActive(activeIndex);
+      centerCard(cards[activeIndex], carousel);
+    }
+  }
+
+  // ================= UI STATE =================
+  function setActive(index) {
+    cards.forEach((card, i) => {
+      card.classList.remove('active');
+      if (i <= index) card.classList.add('show');
+    });
+    cards[index].classList.add('active');
+  }
+}
+
+// ================= GLOBAL PAUSE =================
+function pauseAllExcept(activePlayer) {
+  ALL_PLAYERS.forEach(p => {
+    if (p !== activePlayer) {
+      try { p.pauseVideo(); } catch(e){}
+    }
+  });
+}
+
+// ================= SAFE CENTERING (NO VERTICAL SCROLL) =================
+function centerCard(card, carousel) {
+  const cardRect = card.getBoundingClientRect();
+  const carouselRect = carousel.getBoundingClientRect();
+
+  const offset =
+    cardRect.left -
+    carouselRect.left -
+    (carouselRect.width / 2 - cardRect.width / 2);
+
+  carousel.scrollBy({
+    left: offset,
+    behavior: 'smooth'
+  });
+}
+
+// ================= THEME TOGGLE =================
+const toggle = document.querySelector('.theme-toggle');
+const body = document.body;
+
+if (localStorage.getItem('theme') === 'light') {
+  body.classList.add('light');
+}
+
+toggle.addEventListener('click', () => {
+  body.classList.toggle('light');
+  localStorage.setItem(
+    'theme',
+    body.classList.contains('light') ? 'light' : 'dark'
+  );
 });
 
+// ================= LOAD ANIMATION =================
+function revealOnLoad() {
+  document.querySelectorAll('.video-card').forEach((card, i) => {
+    setTimeout(() => card.classList.add('show'), i * 120);
+  });
+}
 
-// ================= SCROLL DOWN BUTTON =================
-document.querySelector(".scroll-down").addEventListener("click",()=>{
-window.scrollBy({top:window.innerHeight,behavior:"smooth"});
-});
 
 
-// ================= POP-IN ON LOAD =================
-window.addEventListener("load",()=>{
-document.querySelectorAll(".video-card").forEach((card,i)=>{
-setTimeout(()=>{
-card.classList.add("show");
-}, i * 100);
-});
-});
+
+
+
+
+
+
+
+
