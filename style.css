@@ -168,27 +168,6 @@ background:
 linear-gradient(
 180deg,
 rgba(255,255,255,0.12),
-/* ================= WATER-GLASS NAV BUTTONS ================= */
-.nav-btn{
-display: none;
-position: absolute;
-top: 50%;
-transform: translateY(-50%);
-z-index: 5;
-
-height: 44px;
-padding: 0 22px;
-border-radius: 999px;
-border: 1px solid var(--glass-border-dark);
-
-font-size: 26px;
-cursor: pointer;
-color: inherit;
-
-background:
-linear-gradient(
-180deg,
-rgba(255,255,255,0.12),
 rgba(255,255,255,0.03)
 ),
 var(--glass-bg-dark);
@@ -297,302 +276,69 @@ padding: 30px 20px;
 opacity: 0.7;
 }
 
-/* ================= WATER-GLASS NAV BUTTONS ================= /
+/* ================= WATER-GLASS NAV BUTTONS ================= */
 .nav-btn{
-display: flex;                / ✅ ENABLED ON MOBILE */
-position: absolute;
-top: 50%;
-transform: translateY(-50%);
-z-index: 5;
+  display: flex;                /* ✅ ENABLED ON MOBILE */
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
 
-height: 40px;                 /* slightly smaller for mobile */
-padding: 0 18px;
-border-radius: 999px;
-/* ================= NAV BUTTONS ================= */
-.nav-btn{
-position:absolute;
-top:50%;
-transform:translateY(-50%);
-z-index:5;
+  height: 40px;                 /* slightly smaller for mobile */
+  padding: 0 18px;
+  border-radius: 999px;
+  border: 1px solid var(--glass-border-dark);
 
-display:flex;
-align-items:center;
-justify-content:center;
+  font-size: 22px;
+  cursor: pointer;
+  color: inherit;
 
-height:42px;
-padding:0 20px;
-border-radius:999px;
-border:1px solid var(--glass-border-dark);
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255,255,255,0.12),
+      rgba(255,255,255,0.03)
+    ),
+    var(--glass-bg-dark);
 
-font-size:24px;
-cursor:pointer;
-color:inherit;
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Clash Display',sans-serif;
-}
+  backdrop-filter: blur(26px) saturate(160%);
+  box-shadow:
+    0 10px 28px rgba(0,0,0,0.35),
+    inset 0 1px 1px rgba(255,255,255,0.35);
 
-body{
-background:
-radial-gradient(circle at 80% 20%,#0f3c52,#020617);
-color:white;
-overflow-x:hidden;
-}
-
-/* HEADER */
-.header{
-text-align:center;
-padding:80px 20px 50px;
-}
-
-.logo{
-width:95px;
-height:95px;
-border-radius:50%;
-margin-bottom:15px;
-object-fit:cover;
-}
-
-.header h1{
-font-size:28px;
-margin-bottom:8px;
-}
-
-.header p{
-opacity:.7;
-font-size:14px;
-}
-
-/* SECTIONS */
-.section{
-padding:50px 20px;
-}
-
-.section h2{
-margin-bottom:25px;
-font-size:22px;
-}
-
-/* CAROUSEL */
-.carousel-wrapper{
-position:relative;
-}
-
-.carousel{
-display:flex;
-gap:20px;
-overflow-x:auto;
-scroll-behavior:smooth;
-padding:10px 50px;
-}
-
-.carousel::-webkit-scrollbar{
-display:none;
-}
-
-/* VIDEO CARD */
-.video-card{
-flex:0 0 220px;
-aspect-ratio:9/16;
-border-radius:20px;
-overflow:hidden;
-background:black;
-box-shadow:0 20px 40px rgba(0,0,0,.5);
-transition:.4s ease;
-}
-
-.video-card:hover{
-transform:scale(1.05);
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Clash Display',sans-serif;
-}
-
-body{
-background:
-radial-gradient(circle at 80% 20%,#0f3c52,#020617);
-color:white;
-overflow-x:hidden;
-}
-
-/* ================= HEADER ================= */
-.header{
-text-align:center;
-padding:80px 20px 50px;
-}
-
-.logo{
-width:95px;
-height:95px;
-border-radius:50%;
-margin-bottom:15px;
-object-fit:cover;
-}
-
-.header h1{
-font-size:28px;
-margin-bottom:8px;
-}
-
-.header p{
-opacity:.7;
-font-size:14px;
-}
-
-/* ================= SECTIONS ================= */
-.section{
-padding:60px 20px;
-}
-
-.section h2{
-margin-bottom:25px;
-font-size:22px;
-}
-
-/* ================= CAROUSEL ================= */
-.carousel-wrapper{
-position:relative;
-}
-
-.carousel{
-display:flex;
-gap:20px;
-overflow-x:auto;
-scroll-behavior:smooth;
-padding:20px 60px;
-scrollbar-width:none;
-}
-
-.carousel::-webkit-scrollbar{
-display:none;
-}
-
-/* ================= VIDEO CARD ================= */
-.video-card{
-flex:0 0 220px;
-aspect-ratio:9/16;
-border-radius:20px;
-overflow:hidden;
-background:black;
-box-shadow:0 25px 50px rgba(0,0,0,.6);
-
-/* animation base */
-opacity:0;
-transform:scale(.85) translateY(40px);
-transition:all .6s cubic-bezier(.22,.61,.36,1);
-}
-
-/* stagger show state */
-.video-card.show{
-opacity:.6;
-transform:scale(.95) translateY(15px);
-}
-
-/* center active state */
-.video-card.active{
-opacity:1;
-transform:scale(1) translateY(0);
-box-shadow:0 30px 70px rgba(0,0,0,.8);
-}
-
-/* subtle hover boost */
-.video-card:hover{
-transform:scale(1.05);
-}
-
-.video-card iframe{
-width:100%;
-height:100%;
-border:none;
-}
-
-/* ================= NAV BUTTONS ================= */
-.nav-btn{
-position:absolute;
-top:50%;
-transform:translateY(-50%);
-z-index:10;
-
-width:44px;
-height:44px;
-border-radius:50%;
-border:1px solid rgba(255,255,255,.3);
-background:rgba(255,255,255,.08);
-backdrop-filter:blur(12px);
-color:white;
-font-size:22px;
-cursor:pointer;
-
-display:flex;
-align-items:center;
-justify-content:center;
-
-transition:.3s ease;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .nav-btn:hover{
-background:rgba(255,255,255,.25);
-transform:translateY(-50%) scale(1.1);
+  transform: translateY(-50%) scale(1.06);
 }
 
-.nav-btn.left{left:10px;}
-.nav-btn.right{right:10px;}
+.nav-btn.left{ left: -12px; }
+.nav-btn.right{ right: -12px; }
 
-/* ================= SCROLL DOWN BUTTON ================= */
-.scroll-down{
-position:fixed;
-bottom:50px;
-left:50%;
-transform:translateX(-50%);
-width:52px;
-height:52px;
-border-radius:50%;
-border:1px solid rgba(255,255,255,.3);
-background:rgba(255,255,255,.08);
-backdrop-filter:blur(12px);
-color:white;
-font-size:22px;
-z-index:20;
-cursor:pointer;
-transition:.3s ease;
-
-/* subtle pulse animation */
-animation:pulse 2s infinite;
+body.light .nav-btn{
+  border: 1px solid var(--glass-border-light);
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255,255,255,0.75),
+      rgba(255,255,255,0.35)
+    ),
+    var(--glass-bg-light);
 }
 
-.scroll-down:hover{
-background:rgba(255,255,255,.25);
-}
+/* ================= DESKTOP REFINEMENT ================= */
+@media (min-width: 768px){
+  .nav-btn{
+    height: 44px;
+    padding: 0 22px;
+    font-size: 26px;
+  }
 
-@keyframes pulse{
-0%{transform:translateX(-50%) scale(1);}
-50%{transform:translateX(-50%) scale(1.08);}
-100%{transform:translateX(-50%) scale(1);}
-}
-
-/* ================= FOOTER ================= */
-.footer{
-text-align:center;
-padding:60px 20px;
-opacity:.6;
-}
-
-/* ================= DESKTOP ENHANCEMENT ================= */
-@media(min-width:768px){
-
-.section{
-padding:80px 80px;
-}
-
-.video-card{
-flex:0 0 260px;
-}
-
-.nav-btn.left{left:-20px;}
-.nav-btn.right{right:-20px;}
-
+  .video-card{
+    min-width: 260px;
+    height: 462px;
+  }
 }
