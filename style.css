@@ -121,8 +121,8 @@ body.light{
   justify-content:center;
 }
 
-.nav-btn.left{ left:16px; }
-.nav-btn.right{ right:16px; }
+.nav-btn.left{ left:20px; }
+.nav-btn.right{ right:20px; }
 
 /* THEME TOGGLE */
 .theme-toggle{
@@ -159,7 +159,7 @@ body.light .toggle-pill{
   left:50%;
   transform:translateX(-50%);
   
-  bottom:30px;   /* ← lower value */
+  bottom:35px;   /* ← lower value */
   
   width:52px;
   height:52px;
