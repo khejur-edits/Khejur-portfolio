@@ -118,4 +118,4 @@ function revealOnLoad() {
   document.querySelectorAll('.video-card').forEach((card, i) => {
     setTimeout(() => card.classList.add('show'), i * 120);
   });
-}
+  }
