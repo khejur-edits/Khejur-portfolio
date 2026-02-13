@@ -17,7 +17,6 @@ function initCarousel(wrapper) {
   let players = [];
   let activeIndex = 0;
 
-  // Init players for THIS carousel
   cards.forEach((card, i) => {
     const el = card.querySelector('.yt-player');
 
@@ -33,10 +32,8 @@ function initCarousel(wrapper) {
     ALL_PLAYERS.push(player);
   });
 
-  // Initial state
   setActive(activeIndex);
 
-  // ================= BUTTON NAV =================
   leftBtn.onclick = () => move(-1);
   rightBtn.onclick = () => move(1);
 
@@ -50,7 +47,6 @@ function initCarousel(wrapper) {
     players[activeIndex]?.playVideo();
   }
 
-  // ================= PLAYER STATE =================
   function onPlayerStateChange(event, index) {
     if (event.data === YT.PlayerState.PLAYING) {
 
@@ -62,7 +58,6 @@ function initCarousel(wrapper) {
     }
   }
 
-  // ================= UI STATE =================
   function setActive(index) {
     cards.forEach((card, i) => {
       card.classList.remove('active');
@@ -81,7 +76,7 @@ function pauseAllExcept(activePlayer) {
   });
 }
 
-// ================= SAFE CENTERING (NO VERTICAL SCROLL) =================
+// ================= SAFE CENTERING =================
 function centerCard(card, carousel) {
   const cardRect = card.getBoundingClientRect();
   const carouselRect = carousel.getBoundingClientRect();
@@ -113,9 +108,19 @@ toggle.addEventListener('click', () => {
   );
 });
 
+// ================= SCROLL DOWN BUTTON =================
+const scrollBtn = document.querySelector('.scroll-down');
+
+scrollBtn.addEventListener('click', () => {
+  window.scrollBy({
+    top: window.innerHeight,
+    behavior: 'smooth'
+  });
+});
+
 // ================= LOAD ANIMATION =================
 function revealOnLoad() {
   document.querySelectorAll('.video-card').forEach((card, i) => {
     setTimeout(() => card.classList.add('show'), i * 120);
   });
-  }
+      }
