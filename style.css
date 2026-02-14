@@ -28,6 +28,14 @@ body.light{
   background-repeat:no-repeat;
 }
 
+/* TEXT COPY BLOCKER*/
+body{
+  -webkit-user-select:none;
+  user-select:none;
+}
+
+
+
 /* HEADER */
 .header{
   padding:80px 20px 60px;
