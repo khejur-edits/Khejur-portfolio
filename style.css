@@ -167,24 +167,24 @@ body.light .toggle-pill{
   transform:translateX(26px);
 }
 /* DARK MODE */
-body.light .theme-toggle{
+body:not(.light) .theme-toggle{
   background:rgba(29,10,20,0.15);
   border:1px solid #1d0a14;
 }
 
-body.light .toggle-pill{
+body:not(.light) .toggle-pill{
   background:#1d0a14;
 }
+
 /* LIGHT MODE */
-body:not(.light) .theme-toggle{
+body.light .theme-toggle{
   background:rgba(217,183,140,0.25);
   border:1px solid #d9b78c;
 }
 
-body:not(.light) .toggle-pill{
+body.light .toggle-pill{
   background:#d9b78c;
 }
-
 /* SCROLL DOWN BUTTON */
 .scroll-down{
   position:fixed;
