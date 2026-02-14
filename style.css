@@ -81,8 +81,8 @@ body.light{
   background:#07080c;
   
 
-  opacity:.4;
-  transform:scale(.9);
+  opacity:.6;
+  transform:scale(.97);
   transition:.4s ease;
 }
 /* Dark mode shadow */
