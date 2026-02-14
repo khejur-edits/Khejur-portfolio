@@ -168,22 +168,22 @@ body.light .toggle-pill{
 }
 /* DARK MODE */
 body:not(.light) .theme-toggle{
-  background:rgba(29,10,20,0.15);
-  border:1px solid #1d0a14;
+  border:1px solid #d9b78c;
+  background:rgba(217,183,140,0.15);
 }
 
 body:not(.light) .toggle-pill{
-  background:#1d0a14;
+  background:#d9b78c;
 }
 
 /* LIGHT MODE */
 body.light .theme-toggle{
-  background:rgba(217,183,140,0.25);
-  border:1px solid #d9b78c;
+  border:1px solid #1d0a14;
+  background:rgba(29,10,20,0.10);
 }
 
 body.light .toggle-pill{
-  background:#d9b78c;
+  background:#1d0a14;
 }
 /* SCROLL DOWN BUTTON */
 .scroll-down{
