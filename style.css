@@ -79,11 +79,20 @@ body.light{
   overflow:hidden;
 
   background:#07080c;
-  box-shadow:0 30px 60px rgba(0,0,0,.6);
+  
 
   opacity:.4;
   transform:scale(.9);
   transition:.4s ease;
+}
+/* Dark mode shadow */
+body:not(.light) .video-card{
+  box-shadow:0 30px 60px rgba(0,0,0,.6);
+}
+
+/* Light mode shadow */
+body.light .video-card{
+  box-shadow:0 15px 30px rgba(0,0,0,.15);
 }
 
 .video-card.active{
