@@ -192,7 +192,7 @@ body.light .toggle-pill{
   transform:translateX(-50%);
   transition: transform .3s ease;   /* ADD THIS LINE */
 
-  bottom:35px;
+  bottom:90px;
 
   width:52px;
   height:52px;
