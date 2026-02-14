@@ -129,7 +129,7 @@ body.light .video-card{
   border:1px solid rgba(255,255,255,.3);
   background:rgba(255,255,255,.08);
   backdrop-filter:blur(12px);
-  color:white;
+  
   font-size:22px;
   cursor:pointer;
 
@@ -146,6 +146,21 @@ body.light .video-card{
   right: max(16px, env(safe-area-inset-right));
 }
 
+/* ================= ARROW COLORS BY THEME ================= */
+
+/* DARK MODE */
+body:not(.light) .nav-btn,
+body:not(.light) .scroll-down{
+  color:#d9b78c;
+  border:1px solid rgba(217,183,140,.4);
+}
+
+/* LIGHT MODE */
+body.light .nav-btn,
+body.light .scroll-down{
+  color:#1d0a14;
+  border:1px solid rgba(29,10,20,.4);
+}
 /* THEME TOGGLE */
 .theme-toggle{
   position:fixed;
@@ -209,7 +224,7 @@ body.light .toggle-pill{
   background:rgba(255,255,255,.12);
   backdrop-filter:blur(12px);
 
-  color:white;
+
   font-size:22px;
   cursor:pointer;
 
