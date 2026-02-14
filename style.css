@@ -6,7 +6,7 @@
 
 body{
   font-family:'Clash Display',sans-serif;
-  color:#f4e1b2;
+  color:#d9b78c;
   overflow-x:hidden;
 
   background:
@@ -18,7 +18,7 @@ body{
 }
 
 body.light{
-  color:#0f0508;
+  color:#1d0a14;
 
   background:
   radial-gradient(1200px 700px at 20% 0%, rgba(255,200,120,0.35), transparent 65%),
