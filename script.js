@@ -110,7 +110,7 @@ toggle.addEventListener('click', () => {
 
 // ================= SCROLL DOWN BUTTON =================
 const scrollBtn = document.querySelector('.scroll-down');
-
+const scrollTooltip = document.querySelector('.scroll-tooltip');
 function checkScrollPosition() {
   const scrollTop = window.scrollY;
   const windowHeight = window.innerHeight;
@@ -120,8 +120,10 @@ function checkScrollPosition() {
 
   if (nearBottom) {
     scrollBtn.classList.add('to-top');
+    scrollTooltip.classList.add('show');
   } else {
     scrollBtn.classList.remove('to-top');
+    scrollTooltip.classList.remove('show');
   }
 }
 
