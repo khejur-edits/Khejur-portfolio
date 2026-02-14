@@ -55,7 +55,7 @@ body.light{
 /* CAROUSEL */
 .carousel-wrapper{
   position:relative;
-  padding:0 20px;
+  padding:0;
 }
 
 .carousel{
@@ -63,8 +63,8 @@ body.light{
   gap:20px;
   overflow-x:auto;
   scroll-behavior:smooth;
-  padding:20px 0;
-  scrollbar-width:none;
+
+  padding:20px 20px; /* space top & bottom AND horizontal scroll padding */
 }
 
 .carousel::-webkit-scrollbar{
