@@ -111,11 +111,34 @@ toggle.addEventListener('click', () => {
 // ================= SCROLL DOWN BUTTON =================
 const scrollBtn = document.querySelector('.scroll-down');
 
+function checkScrollPosition() {
+  const scrollTop = window.scrollY;
+  const windowHeight = window.innerHeight;
+  const docHeight = document.documentElement.scrollHeight;
+
+  const nearBottom = scrollTop + windowHeight >= docHeight - 10;
+
+  if (nearBottom) {
+    scrollBtn.classList.add('to-top');
+  } else {
+    scrollBtn.classList.remove('to-top');
+  }
+}
+
+window.addEventListener('scroll', checkScrollPosition);
+
 scrollBtn.addEventListener('click', () => {
-  window.scrollBy({
-    top: window.innerHeight,
-    behavior: 'smooth'
-  });
+  if (scrollBtn.classList.contains('to-top')) {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  } else {
+    window.scrollBy({
+      top: window.innerHeight,
+      behavior: 'smooth'
+    });
+  }
 });
 
 // ================= LOAD ANIMATION =================
