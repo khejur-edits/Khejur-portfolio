@@ -222,6 +222,33 @@ body.light .toggle-pill{
 .scroll-down.to-top{
   transform:translateX(-50%) rotate(180deg);
 }
+/* SCROLL TOOLTIP */
+.scroll-tooltip{
+  position:fixed;
+  left:50%;
+  transform:translateX(-50%);
+  bottom:150px;
+
+  font-size:13px;
+  padding:6px 14px;
+  border-radius:20px;
+
+  background:rgba(0,0,0,0.35);
+  backdrop-filter:blur(6px);
+
+  color:#fff;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .3s ease, transform .3s ease;
+
+  z-index:9998;
+}
+
+/* Visible when at bottom */
+.scroll-tooltip.show{
+  opacity:1;
+  transform:translateX(-50%) translateY(-5px);
+}
 
 /* FOOTER */
 .footer{
